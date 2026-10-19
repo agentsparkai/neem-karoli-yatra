@@ -1,1 +1,0 @@
-# neem-karoli-yatra
