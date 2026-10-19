@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🙏 જય નીમ કરોલી બાબા યાત્રા ગાઈડ - ભીમજીભાઈ માટે</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Gujarati:wght@500;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --base-size: 19px;
+    }
+    html {
+      font-size: var(--base-size);
+    }
+    body {
+      font-family: 'Noto Sans Gujarati', sans-serif;
+      background-color: #FFFDF7;
+      color: #111827;
+      line-height: 1.6;
+    }
+    .saffron-header {
+      background: linear-gradient(135deg, #9A3412 0%, #EA580C 60%, #D97706 100%);
+    }
+    .tab-btn {
+      min-height: 60px;
+      transition: all 0.2s ease;
+    }
+    .tab-active {
+      background-color: #C2410C !important;
+      color: #FFFFFF !important;
+      border-color: #7C2D12 !important;
+      box-shadow: 0 6px 15px rgba(194, 65, 12, 0.35);
+      transform: translateY(-2px);
+    }
+    .map-btn {
+      background: linear-gradient(135deg, #1D4ED8 0%, #2563EB 100%);
+      color: white;
+      min-height: 54px;
+      box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
+      cursor: pointer;
+    }
+    .map-btn:active {
+      transform: scale(0.97);
+    }
+    .big-check {
+      width: 28px;
+      height: 28px;
+      accent-color: #15803D;
+      flex-shrink: 0;
+    }
+    .checked-row {
+      background-color: #F0FDF4 !important;
+      border-color: #86EFAC !important;
+    }
+    .checked-row span.item-text {
+      text-decoration: line-through;
+      color: #6B7280;
+    }
+    .place-img {
+      width: 100%;
+      height: 210px;
+      object-fit: cover;
+      background-color: #F3F4F6;
+    }
+  </style>
+</head>
+<body class="pb-36">
+
+  <!-- Top Accessibility & Language Bar -->
+  <div class="bg-amber-950 text-white px-4 py-3 sticky top-0 z-40 shadow-md">
+    <div class="max-w-lg mx-auto flex justify-between items-center gap-2">
+      <button onclick="changeFontSize()" id="zoomBtn" class="bg-amber-400 text-amber-950 font-black px-4 py-2 rounded-xl text-base flex items-center gap-1.5 shadow">
+        🔍 <span data-gu="અક્ષર મોટા કરો" data-en="Bigger Text">અક્ષર મોટા કરો</span>
+      </button>
+      <button onclick="toggleLang()" id="langBtn" class="bg-white text-amber-950 font-black px-4 py-2 rounded-xl text-base shadow">
+        English
+      </button>
+    </div>
+  </div>
+
+  <!-- Hero Banner with Real Kainchi Dham Photo -->
+  <header class="saffron-header text-white p-5 rounded-b-3xl shadow-xl">
+    <div class="max-w-lg mx-auto">
+      <div class="flex items-center gap-4">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Kainchi_Dham_Ashram.jpg?width=400" 
+             onerror="this.src='https://commons.wikimedia.org/wiki/Special:FilePath/Naina_Devi_Temple,_Nainital.jpg?width=400'"
+             alt="Kainchi Dham Ashram" 
+             class="w-24 h-24 rounded-2xl object-cover border-4 border-amber-300 shadow-lg flex-shrink-0 bg-orange-900">
+        <div>
+          <span class="bg-amber-300 text-amber-950 font-black px-3 py-1 rounded-full text-xs uppercase">
+            26 Oct – 30 Oct
+          </span>
+          <h1 class="text-2xl font-black mt-1 leading-tight" data-gu="🙏 જય નીમ કરોલી બાબા" data-en="🙏 Jai Neem Karoli Baba">
+            🙏 જય નીમ કરોલી બાબા
+          </h1>
+          <p class="text-amber-100 font-bold text-base mt-0.5" data-gu="ભીમજીભાઈ (પપ્પા) ની યાત્રા ગાઈડ" data-en="Bhimjibhai's Yatra Guide">
+            ભીમજીભાઈ (પપ્પા) ની યાત્રા ગાઈડ
+          </p>
+        </div>
+      </div>
+
+      <!-- Fun Interactive Blessing Button -->
+      <div class="mt-4 bg-white/15 backdrop-blur rounded-2xl p-3 flex items-center justify-between border border-white/25">
+        <div class="text-sm font-bold" data-gu="🌺 બાબાના આશીર્વાદ લેવા દબાવો:" data-en="🌺 Tap for Baba's Blessings:">
+          🌺 બાબાના આશીર્વાદ લેવા દબાવો:
+        </div>
+        <button onclick="addJaikar()" class="bg-amber-300 text-amber-950 font-black px-4 py-2 rounded-xl text-sm shadow active:scale-95 transition">
+          🔔 જય બાબા કી! (<span id="jaikarCount">0</span>)
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-lg mx-auto px-4 mt-6">
+
+    <!-- Golden Rule Box -->
+    <div class="bg-red-50 border-4 border-red-500 rounded-3xl p-4 mb-6 shadow-md">
+      <div class="flex items-start gap-3">
+        <span class="text-4xl">🎒</span>
+        <div>
+          <h2 class="font-black text-red-900 text-lg" data-gu="સૌથી અગત્યની સૂચના (ખાસ યાદ રાખવી):" data-en="Most Important Rule:">
+            સૌથી અગત્યની સૂચના (ખાસ યાદ રાખવી):
+          </h2>
+          <p class="text-red-950 font-bold text-base mt-1" data-gu="૧ જોડી કપડાં અને રોજની દવાઓ મોટી બેગથી અલગ નાની હેન્ડબેગમાં પોતાની પાસે જ રાખવી. (દિલ્હી ઉતરીને હાઈવે પર શિવા ઢાબા પર ફ્રેશ થવા કામ લાગશે)." data-en="Keep 1 pair of clothes and daily medicines in your SMALL HANDBAG with you (Needed right after Delhi at Shiva Dhaba to freshen up).">
+            ૧ જોડી કપડાં અને રોજની દવાઓ મોટી બેગથી અલગ નાની હેન્ડબેગમાં પોતાની પાસે જ રાખવી. (દિલ્હી ઉતરીને હાઈવે પર શિવા ઢાબા પર ફ્રેશ થવા કામ લાગશે).
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 Big Navigation Buttons -->
+    <div class="grid grid-cols-3 gap-2.5 mb-6">
+      <button onclick="switchTab('itinerary')" id="tab-itinerary" class="tab-btn tab-active bg-white border-2 border-orange-300 text-orange-950 rounded-2xl font-black text-base px-2 flex flex-col items-center justify-center">
+        <span class="text-2xl">📅</span>
+        <span data-gu="દૈનિક પ્લાન" data-en="Schedule">દૈનિક પ્લાન</span>
+      </button>
+      <button onclick="switchTab('maps')" id="tab-maps" class="tab-btn bg-white border-2 border-orange-300 text-orange-950 rounded-2xl font-black text-base px-2 flex flex-col items-center justify-center">
+        <span class="text-2xl">🗺️</span>
+        <span data-gu="બધા નકશા" data-en="All Maps">બધા નકશા</span>
+      </button>
+      <button onclick="switchTab('packing')" id="tab-packing" class="tab-btn bg-white border-2 border-orange-300 text-orange-950 rounded-2xl font-black text-base px-2 flex flex-col items-center justify-center">
+        <span class="text-2xl">✅</span>
+        <span data-gu="સામાન લિસ્ટ" data-en="Checklist">સામાન લિસ્ટ</span>
+      </button>
+    </div>
+
+    <!-- ================= TAB 1: ITINERARY WITH REAL PHOTOS & POPUP MAPS ================= -->
+    <section id="sec-itinerary" class="space-y-6">
+
+      <!-- DAY 1: 26 OCT -->
+      <div class="bg-white rounded-3xl overflow-hidden shadow-md border-2 border-slate-300">
+        <div class="relative">
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/WAP-7_hauled_New_Delhi_bound_Rajdhani_Express.jpg?width=800" alt="Indian Railways Train" class="place-img">
+          <span class="absolute bottom-2 right-2 bg-black/70 text-white text-xs font-bold px-3 py-1 rounded-full" data-gu="📸 ભારતીય રેલવે" data-en="📸 Indian Railways">📸 ભારતીય રેલવે</span>
+        </div>
+        <div class="p-5">
+          <div class="inline-block bg-orange-100 text-orange-900 font-black px-3.5 py-1 rounded-xl text-base mb-2" data-gu="દિવસ ૧ • ૨૬ ઑક્ટોબર" data-en="Day 1 • 26 October">
+            દિવસ ૧ • ૨૬ ઑક્ટોબર
+          </div>
+          <h3 class="text-xl font-black text-slate-900" data-gu="🚂 ટ્રેન દ્વારા નવી દિલ્હી પ્રસ્થાન" data-en="🚂 Train Journey to New Delhi">
+            🚂 ટ્રેન દ્વારા નવી દિલ્હી પ્રસ્થાન
+          </h3>
+          <p class="text-slate-800 font-bold mt-2" data-gu="• અસલ ઓળખપત્ર (ID Card), મોબાઈલ ચાર્જર અને પાવરબેંક હાથવગા રાખવા." data-en="• Keep your original ID card, charger, and powerbank handy.">
+            • અસલ ઓળખપત્ર (ID Card), મોબાઈલ ચાર્જર અને પાવરબેંક હાથવગા રાખવા.
+          </p>
+          <div class="mt-4 bg-emerald-100 border-2 border-emerald-400 text-emerald-950 p-3.5 rounded-2xl font-bold">
+            🍽️ <span data-gu="રાત્રિભોજન: ટ્રેનમાં રેલવે તરફથી મળશે (સામેલ છે)." data-en="Dinner: Provided on the train by Railways (Included).">રાત્રિભોજન: ટ્રેનમાં રેલવે તરફથી મળશે (સામેલ છે).</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- DAY 2: 27 OCT -->
+      <div class="bg-white rounded-3xl overflow-hidden shadow-md border-4 border-orange-500">
+        <!-- Real Photo of New Delhi Railway Station & Bhimtal Lake -->
+        <div class="grid grid-cols-2 gap-1 bg-slate-200">
+          <div class="relative">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/New_Delhi_Railway_Station_Ajmeri_Gate_side.jpg?width=500" 
+                 onerror="this.src='https://commons.wikimedia.org/wiki/Special:FilePath/New_Delhi_railway_station.jpg?width=500'"
+                 alt="New Delhi Station Ajmeri Gate" class="h-44 w-full object-cover">
+            <span class="absolute bottom-1.5 left-1.5 bg-black/75 text-white text-xs font-bold px-2 py-0.5 rounded" data-gu="નવી દિલ્હી (અજમેરી ગેટ)" data-en="New Delhi Station">નવી દિલ્હી (અજમેરી ગેટ)</span>
+          </div>
+          <div class="relative">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Bhimtal_Lake,_Uttarakhand.jpg?width=500" 
+                 onerror="this.src='https://commons.wikimedia.org/wiki/Special:FilePath/Bhimtal_lake.jpg?width=500'"
+                 alt="Bhimtal Lake" class="h-44 w-full object-cover">
+            <span class="absolute bottom-1.5 left-1.5 bg-black/75 text-white text-xs font-bold px-2 py-0.5 rounded" data-gu="ભીમતાલ લેક" data-en="Bhimtal Lake">ભીમતાલ લેક</span>
+          </div>
+        </div>
+
+        <div class="p-5 space-y-4">
+          <div class="inline-block bg-orange-600 text-white font-black px-3.5 py-1 rounded-xl text-base" data-gu="દિવસ ૨ • ૨૭ ઑક્ટોબર" data-en="Day 2 • 27 October">
+            દિવસ ૨ • ૨૭ ઑક્ટોબર
+          </div>
+          <h3 class="text-xl font-black text-slate-900" data-gu="📍 દિલ્હી સ્ટેશન ➔ ભીમતાલ લેક" data-en="📍 New Delhi ➔ Bhimtal Lake">
+            📍 દિલ્હી સ્ટેશન ➔ ભીમતાલ લેક
+          </h3>
+
+          <!-- Urgent 30 Min Box -->
+          <div class="bg-red-50 border-2 border-red-400 p-4 rounded-2xl">
+            <div class="font-black text-red-700 text-lg" data-gu="⏰ ટ્રેન ઉતર્યા પછી ૩૦ મિનિટમાં:" data-en="⏰ Within 30 Mins of Getting Off Train:">
+              ⏰ ટ્રેન ઉતર્યા પછી ૩૦ મિનિટમાં:
+            </div>
+            <p class="text-slate-900 font-bold mt-1" data-gu="સ્ટેશન પર ફ્રેશ થવા રોકાવું નહીં! સામાન લઈને સીધા 'અજમેરી ગેટ' તરફ બહાર નીકળી પાર્કિંગમાં સારથીના વાહન પાસે પહોંચવું." data-en="Do NOT stop at the station to freshen up! Walk out towards 'Ajmeri Gate Parking' where Sarthi vehicles are waiting.">
+              સ્ટેશન પર ફ્રેશ થવા રોકાવું નહીં! સામાન લઈને સીધા 'અજમેરી ગેટ' તરફ બહાર નીકળી પાર્કિંગમાં સારથીના વાહન પાસે પહોંચવું.
+            </p>
+            <button type="button" onclick="openMapModal('New Delhi Railway Station Ajmeri Gate Parking', 'નવી દિલ્હી સ્ટેશન - અજમેરી ગેટ પાર્કિંગ')" class="map-btn mt-3 w-full rounded-2xl font-black px-4 py-3 flex items-center justify-center gap-2 text-base">
+              📍 <span data-gu="અજમેરી ગેટ પાર્કિંગનો નકશો અહીં ખોલો" data-en="View Ajmeri Gate Parking Map Here">અજમેરી ગેટ પાર્કિંગનો નકશો અહીં ખોલો</span>
+            </button>
+          </div>
+
+          <!-- Highway Stop -->
+          <div class="bg-amber-50 border-2 border-amber-300 p-4 rounded-2xl">
+            <div class="font-black text-amber-900 text-lg" data-gu="🚿 દિલ્હી બહાર હાઈવે પર: શિવા ઢાબા" data-en="🚿 Highway Stop: Shiva Dhaba">
+              🚿 દિલ્હી બહાર હાઈવે પર: શિવા ઢાબા
+            </div>
+            <p class="text-slate-800 font-bold mt-1" data-gu="અહીં વોશરૂમ, બ્રશ અને કપડાં બદલવા માટે ગાડી ઊભી રહેશે. નાની હેન્ડબેગ સાથે લઈ જવી." data-en="Vehicle will stop here for washroom, freshening up, and changing clothes. Take your small handbag.">
+              અહીં વોશરૂમ, બ્રશ અને કપડાં બદલવા માટે ગાડી ઊભી રહેશે. નાની હેન્ડબેગ સાથે લઈ જવી.
+            </p>
+            <button type="button" onclick="openMapModal('Shiva Tourist Dhaba Gajraula NH9', 'શિવા ઢાબા (હાઈવે હોલ્ટ)')" class="map-btn mt-3 w-full rounded-2xl font-black px-4 py-3 flex items-center justify-center gap-2 text-base">
+              📍 <span data-gu="શિવા ઢાબાનો નકશો અહીં ખોલો" data-en="View Shiva Dhaba Map Here">શિવા ઢાબાનો નકશો અહીં ખોલો</span>
+            </button>
+          </div>
+
+          <!-- Afternoon Bhimtal -->
+          <div class="bg-sky-50 border-2 border-sky-300 p-4 rounded-2xl">
+            <div class="font-black text-sky-900 text-lg" data-gu="🌊 બપોર પછી: ભીમતાલ લેક અને હોટેલ" data-en="🌊 Afternoon: Bhimtal Lake & Hotel">
+              🌊 બપોર પછી: ભીમતાલ લેક અને હોટેલ
+            </div>
+            <p class="text-slate-800 font-bold mt-1" data-gu="પહાડી રસ્તો શરૂ થતા પહેલા ઊલટીની દવા (જરૂર હોય તો) લઈ લેવી. ભીમતાલ લેક જોઈને હોટેલ પર ચેક-ઇન." data-en="Take motion sickness medicine before hill climb if needed. Visit Bhimtal Lake on the way to hotel.">
+              પહાડી રસ્તો શરૂ થતા પહેલા ઊલટીની દવા (જરૂર હોય તો) લઈ લેવી. ભીમતાલ લેક જોઈને હોટેલ પર ચેક-ઇન.
+            </p>
+            <button type="button" onclick="openMapModal('Bhimtal Lake Uttarakhand', 'ભીમતાલ લેક (Bhimtal Lake)')" class="map-btn mt-3 w-full rounded-2xl font-black px-4 py-3 flex items-center justify-center gap-2 text-base">
+              📍 <span data-gu="ભીમતાલ લેકનો નકશો અહીં ખોલો" data-en="View Bhimtal Lake Map Here">ભીમતાલ લેકનો નકશો અહીં ખોલો</span>
+            </button>
+          </div>
+
+          <!-- Meals Box -->
+          <div class="bg-emerald-100 border-2 border-emerald-400 text-emerald-950 p-4 rounded-2xl font-bold space-y-1">
+            <div>☕ <span data-gu="સવારનો નાસ્તો: ટ્રેનમાં સામેલ છે." data-en="Breakfast: Included on Train.">સવારનો નાસ્તો: ટ્રેનમાં સામેલ છે.</span></div>
+            <div class="text-red-800">🍛 <span data-gu="બપોરનું જમવાનું: રસ્તામાં સ્વખર્ચે (પોતાના ખર્ચે)." data-en="Lunch: Self-paid on highway.">બપોરનું જમવાનું: રસ્તામાં સ્વખર્ચે (પોતાના ખર્ચે).</span></div>
+            <div>🍽️ <span data-gu="રાત્રિભોજન: હોટેલમાં સામેલ છે." data-en="Dinner: Included at Hotel.">રાત્રિભોજન: હોટેલમાં સામેલ છે.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DAY 3: 28 OCT (MAIN DARSHAN) -->
+      <div class="bg-white rounded-3xl overflow-hidden shadow-md border-4 border-amber-500">
+        <!-- Real Photos of Kainchi Dham, Naina Devi & Golu Devta -->
+        <div class="grid grid-cols-2 gap-1 bg-slate-200">
+          <div class="relative">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Naina_Devi_Temple,_Nainital.jpg?width=500" alt="Naina Devi Temple Nainital" class="h-44 w-full object-cover">
+            <span class="absolute bottom-1.5 left-1.5 bg-black/75 text-white text-xs font-bold px-2 py-0.5 rounded" data-gu="નૈના દેવી મંદિર" data-en="Naina Devi Temple">નૈના દેવી મંદિર</span>
+          </div>
+          <div class="relative">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Golu_Devta_Temple_Ghorakhal.jpg?width=500" 
+                 onerror="this.src='https://commons.wikimedia.org/wiki/Special:FilePath/Nainital_view.jpg?width=500'"
+                 alt="Ghorakhal Golu Devta Temple" class="h-44 w-full object-cover">
+            <span class="absolute bottom-1.5 left-1.5 bg-black/75 text-white text-xs font-bold px-2 py-0.5 rounded" data-gu="ગોલુ દેવતા મંદિર" data-en="Golu Devta Temple">ગોલુ દેવતા મંદિર</span>
+          </div>
+        </div>
+
+        <div class="p-5 space-y-4">
+          <div class="inline-block bg-amber-600 text-white font-black px-3.5 py-1 rounded-xl text-base" data-gu="દિવસ ૩ • ૨૮ ઑક્ટોબર (મુખ્ય દર્શન દિવસ)" data-en="Day 3 • 28 October (Main Darshan Day)">
+            દિવસ ૩ • ૨૮ ઑક્ટોબર (મુખ્ય દર્શન દિવસ)
+          </div>
+          <h3 class="text-xl font-black text-slate-900" data-gu="🌺 કૈંચી ધામ દર્શન અને નૈનિતાલ" data-en="🌺 Kainchi Dham Darshan & Nainital">
+            🌺 કૈંચી ધામ દર્શન અને નૈનિતાલ
+          </h3>
+
+          <!-- 5 AM Alert -->
+          <div class="bg-orange-100 border-2 border-orange-500 p-4 rounded-2xl">
+            <div class="font-black text-orange-950 text-lg" data-gu="🕔 સવારે બરાબર ૫:૦૦ વાગ્યે પ્રસ્થાન:" data-en="🕔 5:00 AM Sharp Departure:">
+              🕔 સવારે બરાબર ૫:૦૦ વાગ્યે પ્રસ્થાન:
+            </div>
+            <p class="text-slate-900 font-bold mt-1" data-gu="સારથીનું વાહન કૈંચી ધામ લઈ જશે. વહેલી સવારે ખૂબ ઠંડી હશે તેથી ગરમ જેકેટ, સ્વેટર, ટોપી અને મોજાં પહેરીને જ નીકળવું." data-en="Sarthi vehicle will take you to Kainchi Dham. Wear heavy woolens (jacket, sweater, cap, socks) for the 5 AM cold.">
+              સારથીનું વાહન કૈંચી ધામ લઈ જશે. વહેલી સવારે ખૂબ ઠંડી હશે તેથી ગરમ જેકેટ, સ્વેટર, ટોપી અને મોજાં પહેરીને જ નીકળવું.
+            </p>
+            <button type="button" onclick="openMapModal('Kainchi Dham Neem Karoli Baba Ashram Uttarakhand', 'કૈંચી ધામ - નીમ કરોલી બાબા આશ્રમ')" class="map-btn mt-3 w-full rounded-2xl font-black px-4 py-3 flex items-center justify-center gap-2 text-base">
+              📍 <span data-gu="કૈંચી ધામ મંદિરનો નકશો અહીં ખોલો" data-en="View Kainchi Dham Map Here">કૈંચી ધામ મંદિરનો નકશો અહીં ખોલો</span>
+            </button>
+          </div>
+
+          <!-- Local Taxi Info -->
+          <div class="bg-purple-50 border-2 border-purple-400 p-4 rounded-2xl space-y-3">
+            <div class="font-black text-purple-950 text-lg" data-gu="🚕 બપોર પછી: નાની ટેક્સીમાં દર્શન (સ્વખર્ચે)" data-en="🚕 Afternoon: Local Taxi Sightseeing (Self-Paid)">
+              🚕 બપોર પછી: નાની ટેક્સીમાં દર્શન (સ્વખર્ચે)
+            </div>
+            <p class="text-slate-900 font-bold" data-gu="આ જગ્યાએ મોટો ટેમ્પો ટ્રાવેલર જઈ શકતો નથી. તેથી ૬ વ્યક્તિ ભેગા મળી નાની ટેક્સી કરવી (અંદાજે ₹૭૦૦ થી ₹૧૦૦૦ પ્રતિ વ્યક્તિ). નીચેના બટન દબાવીને દરેક મંદિરનો નકશો તરત અહીં જ જુઓ:" data-en="Big Tempo Traveller cannot go here. 6 people can share a local taxi (~₹700-₹1000 per person). Tap any temple below to view its live map right here:">
+              આ જગ્યાએ મોટો ટેમ્પો ટ્રાવેલર જઈ શકતો નથી. તેથી ૬ વ્યક્તિ ભેગા મળી નાની ટેક્સી કરવી (અંદાજે ₹૭૦૦ થી ₹૧૦૦૦ પ્રતિ વ્યક્તિ). નીચેના બટન દબાવીને દરેક મંદિરનો નકશો તરત અહીં જ જુઓ:
+            </p>
+
+            <div class="space-y-2.5">
+              <button type="button" onclick="openMapModal('Kakighat Ashram Uttarakhand', '૧. કાકડીઘાટ આશ્રમ (Kakighat Ashram)')" class="map-btn w-full rounded-xl font-bold px-4 py-3 flex justify-between items-center text-base">
+                <span>1. કાકડીઘાટ આશ્રમ (Kakighat)</span>
+                <span>🗺️ નકશો જુઓ ➔</span>
+              </button>
+              <button type="button" onclick="openMapModal('Bhumiadhar Hanuman Mandir Nainital', '૨. ભૂમિયાધાર હનુમાન મંદિર')" class="map-btn w-full rounded-xl font-bold px-4 py-3 flex justify-between items-center text-base">
+                <span>2. ભૂમિયાધાર હનુમાન મંદિર</span>
+                <span>🗺️ નકશો જુઓ ➔</span>
+              </button>
+              <button type="button" onclick="openMapModal('Hanuman Garhi Temple Nainital', '૩. હનુમાન ગઢી (Hanuman Garhi)')" class="map-btn w-full rounded-xl font-bold px-4 py-3 flex justify-between items-center text-base">
+                <span>3. હનુમાન ગઢી (Hanuman Garhi)</span>
+                <span>🗺️ નકશો જુઓ ➔</span>
+              </button>
+              <button type="button" onclick="openMapModal('Maa Naina Devi Temple Nainital', '૪. નૈના દેવી મંદિર (Nainital Lake)')" class="map-btn w-full rounded-xl font-bold px-4 py-3 flex justify-between items-center text-base">
+                <span>4. નૈના દેવી મંદિર (Nainital Lake)</span>
+                <span>🗺️ નકશો જુઓ ➔</span>
+              </button>
+              <button type="button" onclick="openMapModal('Golu Devta Temple Ghorakhal Uttarakhand', '૫. ઘોડાખાલ ગોલુ દેવતા મંદિર')" class="map-btn w-full rounded-xl font-bold px-4 py-3 flex justify-between items-center text-base">
+                <span>5. ઘોડાખાલ ગોલુ દેવતા મંદિર</span>
+                <span>🗺️ નકશો જુઓ ➔</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="bg-emerald-100 border-2 border-emerald-400 text-emerald-950 p-4 rounded-2xl font-bold">
+            🍽️ <span data-gu="ભોજન: સવારનો નાસ્તો અને રાત્રિભોજન બંને હોટેલમાં સામેલ છે." data-en="Meals: Both Breakfast & Dinner included at Hotel.">ભોજન: સવારનો નાસ્તો અને રાત્રિભોજન બંને હોટેલમાં સામેલ છે.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- DAY 4 & 5: 29-30 OCT -->
+      <div class="bg-white rounded-3xl overflow-hidden shadow-md border-2 border-slate-300">
+        <div class="relative">
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Nainital_view.jpg?width=800" alt="Nainital Panorama" class="place-img">
+          <span class="absolute bottom-2 right-2 bg-black/75 text-white text-xs font-bold px-3 py-1 rounded-full" data-gu="📸 નૈનિતાલ સરોવર" data-en="📸 Nainital Lake">📸 નૈનિતાલ સરોવર</span>
+        </div>
+        <div class="p-5 space-y-3">
+          <div class="inline-block bg-orange-100 text-orange-900 font-black px-3.5 py-1 rounded-xl text-base" data-gu="દિવસ ૪ અને ૫ • ૨૯ થી ૩૦ ઑક્ટોબર" data-en="Day 4 & 5 • 29 – 30 October">
+            દિવસ ૪ અને ૫ • ૨૯ થી ૩૦ ઑક્ટોબર
+          </div>
+          <h3 class="text-xl font-black text-slate-900" data-gu="🏡 દિલ્હી પરત અને ઘરે આગમન" data-en="🏡 Return to Delhi & Arrival Home">
+            🏡 દિલ્હી પરત અને ઘરે આગમન
+          </h3>
+          <p class="text-slate-800 font-bold" data-gu="• ૨૯ ઑક્ટોબર: હોટેલમાં સવારનો નાસ્તો કરી દિલ્હી રેલવે સ્ટેશન જવા પ્રસ્થાન. રાત્રિભોજન ટ્રેનમાં મળશે." data-en="• 29 Oct: Morning breakfast at hotel, depart for New Delhi station. Dinner on the train.">
+            • ૨૯ ઑક્ટોબર: હોટેલમાં સવારનો નાસ્તો કરી દિલ્હી રેલવે સ્ટેશન જવા પ્રસ્થાન. રાત્રિભોજન ટ્રેનમાં મળશે.
+          </p>
+          <p class="text-slate-800 font-bold" data-gu="• ૩૦ ઑક્ટોબર: સવારનો નાસ્તો ટ્રેનમાં અને બાબાના આશીર્વાદ સાથે ઘરે આગમન!" data-en="• 30 Oct: Morning breakfast on the train and happy arrival home!">
+            • ૩૦ ઑક્ટોબર: સવારનો નાસ્તો ટ્રેનમાં અને બાબાના આશીર્વાદ સાથે ઘરે આગમન!
+          </p>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ================= TAB 2: EMBEDDED WORKING MAPS ================= -->
+    <section id="sec-maps" class="hidden space-y-5">
+      <div class="bg-white rounded-3xl p-5 shadow-md border-2 border-blue-400">
+        <h2 class="text-xl font-black text-blue-950" data-gu="🗺️ અહીં સીધો નકશો જુઓ (બટન દબાવો)" data-en="🗺️ Interactive Live Map Viewer">
+          🗺️ અહીં સીધો નકશો જુઓ (બટન દબાવો)
+        </h2>
+        <p class="text-slate-700 font-bold text-sm mt-1" data-gu="નીચેનામાંથી કોઈપણ સ્થળ પર દબાવો, એટલે તરત જ નીચે તેનો નકશો દેખાશે:" data-en="Tap any button below to view the live map right on this screen:">
+          નીચેનામાંથી કોઈપણ સ્થળ પર દબાવો, એટલે તરત જ નીચે તેનો નકશો દેખાશે:
+        </p>
+
+        <!-- Quick Map Switcher Buttons -->
+        <div class="grid grid-cols-2 gap-2.5 mt-4">
+          <button onclick="loadEmbedMap('Kainchi Dham Neem Karoli Baba Ashram Uttarakhand', 'કૈંચી ધામ આશ્રમ')" class="bg-orange-600 text-white font-black p-3 rounded-2xl text-sm shadow">
+            🌺 કૈંચી ધામ
+          </button>
+          <button onclick="loadEmbedMap('Maa Naina Devi Temple Nainital', 'નૈના દેવી મંદિર (નૈનિતાલ)')" class="bg-orange-100 text-orange-950 border-2 border-orange-400 font-black p-3 rounded-2xl text-sm">
+            ⛰️ નૈના દેવી મંદિર
+          </button>
+          <button onclick="loadEmbedMap('Bhimtal Lake Uttarakhand', 'ભીમતાલ લેક')" class="bg-orange-100 text-orange-950 border-2 border-orange-400 font-black p-3 rounded-2xl text-sm">
+            🌊 ભીમતાલ લેક
+          </button>
+          <button onclick="loadEmbedMap('New Delhi Railway Station Ajmeri Gate', 'નવી દિલ્હી અજમેરી ગેટ')" class="bg-orange-100 text-orange-950 border-2 border-orange-400 font-black p-3 rounded-2xl text-sm">
+            🚂 દિલ્હી અજમેરી ગેટ
+          </button>
+          <button onclick="loadEmbedMap('Kakighat Ashram Uttarakhand', 'કાકડીઘાટ આશ્રમ')" class="bg-orange-100 text-orange-950 border-2 border-orange-400 font-black p-3 rounded-2xl text-sm">
+            🙏 કાકડીઘાટ આશ્રમ
+          </button>
+          <button onclick="loadEmbedMap('Golu Devta Temple Ghorakhal', 'ઘોડાખાલ ગોલુ દેવતા')" class="bg-orange-100 text-orange-950 border-2 border-orange-400 font-black p-3 rounded-2xl text-sm">
+            🔔 ગોલુ દેવતા મંદિર
+          </button>
+        </div>
+
+        <!-- Currently Showing Label -->
+        <div class="mt-4 bg-blue-50 border border-blue-200 p-3 rounded-xl flex justify-between items-center">
+          <span class="font-black text-blue-950" id="currentMapTitle">📍 કૈંચી ધામ આશ્રમ</span>
+        </div>
+
+        <!-- Embedded Live Google Map Iframe -->
+        <div class="mt-3 rounded-2xl overflow-hidden border-4 border-slate-300 shadow-inner">
+          <iframe 
+            id="mapIframe"
+            width="100%" 
+            height="360" 
+            style="border:0;" 
+            loading="lazy" 
+            allowfullscreen 
+            src="https://maps.google.com/maps?q=Kainchi+Dham+Neem+Karoli+Baba+Ashram+Uttarakhand&t=&z=14&ie=UTF8&iwloc=&output=embed">
+          </iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TAB 3: CHECKLIST & TAXI SCRATCHPAD ================= -->
+    <section id="sec-packing" class="hidden space-y-6">
+
+      <!-- Interactive Packing Checklist -->
+      <div class="bg-white rounded-3xl p-5 shadow-md border-2 border-slate-200">
+        <h3 class="text-xl font-black text-orange-900 mb-1" data-gu="✅ સામાન તૈયાર કરવાનું લિસ્ટ" data-en="✅ Interactive Packing List">
+          ✅ સામાન તૈયાર કરવાનું લિસ્ટ
+        </h3>
+        <p class="text-sm font-bold text-slate-600 mb-4" data-gu="જે વસ્તુ મુકાઈ જાય તેની સામે ખરાની નિશાની (✓) કરવા બોક્સ પર દબાવો:" data-en="Tap any box to check off items as you pack:">
+          જે વસ્તુ મુકાઈ જાય તેની સામે ખરાની નિશાની (✓) કરવા બોક્સ પર દબાવો:
+        </p>
+
+        <div class="space-y-3">
+          <label class="flex items-center gap-3.5 p-3.5 rounded-2xl border-2 border-amber-300 bg-amber-50/60 cursor-pointer" onclick="toggleCheck(this)">
+            <input type="checkbox" class="big-check">
+            <span class="item-text font-black text-slate-900" data-gu="નાની હેન્ડબેગમાં: ૧ જોડી કપડાં (શિવા ઢાબા પર બદલવા)" data-en="In Small Handbag: 1 Pair of Clothes (for Shiva Dhaba)">નાની હેન્ડબેગમાં: ૧ જોડી કપડાં (શિવા ઢાબા પર બદલવા)</span>
+          </label>
+
+          <label class="flex items-center gap-3.5 p-3.5 rounded-2xl border-2 border-amber-300 bg-amber-50/60 cursor-pointer" onclick="toggleCheck(this)">
+            <input type="checkbox" class="big-check">
+            <span class="item-text font-black text-slate-900" data-gu="નાની હેન્ડબેગમાં: રોજની દવાઓ, પ્રિસ્ક્રિપ્શન અને ઊલટીની દવા" data-en="In Small Handbag: Daily Medicines & Motion Sickness Pills">નાની હેન્ડબેગમાં: રોજની દવાઓ, પ્રિસ્ક્રિપ્શન અને ઊલટીની દવા</span>
+          </label>
+
+          <label class="flex items-center gap-3.5 p-3.5 rounded-2xl border-2 border-slate-200 bg-white cursor-pointer" onclick="toggleCheck(this)">
+            <input type="checkbox" class="big-check">
+            <span class="item-text font-bold text-slate-900" data-gu="અસલ ઓળખપત્ર (ID Card) અને તેની ઝેરોક્ષ કોપી" data-en="Original ID Card & Photocopy">અસલ ઓળખપત્ર (ID Card) અને તેની ઝેરોક્ષ કોપી</span>
+          </label>
+
+          <label class="flex items-center gap-3.5 p-3.5 rounded-2xl border-2 border-slate-200 bg-white cursor-pointer" onclick="toggleCheck(this)">
+            <input type="checkbox" class="big-check">
+            <span class="item-text font-bold text-slate-900" data-gu="ગરમ જેકેટ, સ્વેટર, શાલ, ગરમ ટોપી અને મોજાં (૫ વાગ્યે કૈંચી ધામ માટે)" data-en="Heavy Jacket, Sweater, Shawl, Warm Cap & Socks">ગરમ જેકેટ, સ્વેટર, શાલ, ગરમ ટોપી અને મોજાં (૫ વાગ્યે કૈંચી ધામ માટે)</span>
+          </label>
+
+          <label class="flex items-center gap-3.5 p-3.5 rounded-2xl border-2 border-slate-200 bg-white cursor-pointer" onclick="toggleCheck(this)">
+            <input type="checkbox" class="big-check">
+            <span class="item-text font-bold text-slate-900" data-gu="સારી પકડવાળાં સ્પોર્ટ્સ શૂઝ (બૂટ)" data-en="Comfortable Good-Grip Sports Shoes">સારી પકડવાળાં સ્પોર્ટ્સ શૂઝ (બૂટ)</span>
+          </label>
+
+          <label class="flex items-center gap-3.5 p-3.5 rounded-2xl border-2 border-slate-200 bg-white cursor-pointer" onclick="toggleCheck(this)">
+            <input type="checkbox" class="big-check">
+            <span class="item-text font-bold text-slate-900" data-gu="મોબાઇલ ચાર્જર, પાવરબેંક અને થોડા રોકડા રૂપિયા" data-en="Phone Charger, Powerbank & Cash">મોબાઇલ ચાર્જર, પાવરબેંક અને થોડા રોકડા રૂપિયા</span>
+          </label>
+
+          <label class="flex items-center gap-3.5 p-3.5 rounded-2xl border-2 border-slate-200 bg-white cursor-pointer" onclick="toggleCheck(this)">
+            <input type="checkbox" class="big-check">
+            <span class="item-text font-bold text-slate-900" data-gu="ORS પાવડરના પેકેટ, બામ અને બેન્ડ-એઇડ" data-en="ORS Packets, Balm & Band-Aids">ORS પાવડરના પેકેટ, બામ અને બેન્ડ-એઇડ</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Easy Notes for Hotel & Local Taxi -->
+      <div class="bg-white rounded-3xl p-5 shadow-md border-2 border-purple-300 space-y-4">
+        <h3 class="text-xl font-black text-purple-950" data-gu="📝 હોટેલ અને ટેક્સીની વિગત લખો" data-en="📝 Save Your Hotel & Taxi Info">
+          📝 હોટેલ અને ટેક્સીની વિગત લખો
+        </h3>
+        <div>
+          <label class="block font-black text-slate-800 mb-1" data-gu="હોટેલનું નામ અને રૂમ નંબર:" data-en="Hotel Name & Room Number:">હોટેલનું નામ અને રૂમ નંબર:</label>
+          <input type="text" id="hotelRoom" oninput="saveNote()" placeholder="અહીં લખો..." class="w-full border-2 border-slate-300 rounded-2xl p-3.5 font-bold text-lg">
+        </div>
+        <div>
+          <label class="block font-black text-slate-800 mb-1" data-gu="નૈનિતાલ લોકલ ટેક્સી ડ્રાઇવરનો નંબર:" data-en="Local Taxi Driver Name & Phone:">નૈનિતાલ લોકલ ટેક્સી ડ્રાઇવરનો નંબર:</label>
+          <input type="text" id="driverPhone" oninput="saveNote()" placeholder="ડ્રાઇવરનો મોબાઇલ નંબર..." class="w-full border-2 border-slate-300 rounded-2xl p-3.5 font-bold text-lg">
+        </div>
+        <div>
+          <label class="block font-black text-slate-800 mb-1" data-gu="ગાડીનો નંબર અને નક્કી કરેલું ભાડું:" data-en="Taxi Number & Agreed Fare:">ગાડીનો નંબર અને નક્કી કરેલું ભાડું:</label>
+          <input type="text" id="carNum" oninput="saveNote()" placeholder="દા.ત. UK 04 XXXX - ₹800" class="w-full border-2 border-slate-300 rounded-2xl p-3.5 font-bold text-lg">
+        </div>
+        <p class="text-emerald-800 font-black text-sm" data-gu="✓ અહીં લખેલી માહિતી ફોનમાં આપોઆપ સેવ થઈ જશે." data-en="✓ Automatically saved on your phone.">
+          ✓ અહીં લખેલી માહિતી ફોનમાં આપોઆપ સેવ થઈ જશે.
+        </p>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ================= INSTANT IN-PAGE LIVE MAP POPUP MODAL ================= -->
+  <div id="mapModal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-3">
+    <div class="bg-white rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl border-4 border-blue-600 animate-fadeIn">
+      <!-- Modal Header -->
+      <div class="bg-blue-700 text-white p-4 flex justify-between items-center">
+        <h3 id="modalMapTitle" class="font-black text-lg truncate pr-2">📍 નકશો</h3>
+        <button onclick="closeMapModal()" class="bg-red-600 text-white font-black px-4 py-1.5 rounded-xl text-base shadow">
+          ✕ બંધ કરો
+        </button>
+      </div>
+      <!-- Working Embedded Map Window -->
+      <div class="p-3 bg-slate-100">
+        <iframe 
+          id="modalMapIframe"
+          width="100%" 
+          height="360" 
+          style="border:0;" 
+          class="rounded-2xl shadow-inner border-2 border-slate-300 bg-white"
+          loading="lazy" 
+          allowfullscreen 
+          src="">
+        </iframe>
+      </div>
+      <!-- Close Button Footer -->
+      <div class="p-3 bg-white border-t flex justify-between items-center gap-2">
+        <span class="text-xs font-bold text-slate-600" data-gu="નકશાને આંગળીથી ઝૂમ કરી શકાશે" data-en="Pinch or tap + / - on map to zoom">નકશાને આંગળીથી ઝૂમ કરી શકાશે</span>
+        <button onclick="closeMapModal()" class="bg-slate-800 text-white font-black px-6 py-2.5 rounded-xl text-base">
+          પાછા જાઓ (Close)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Big Sticky Emergency Call Bar -->
+  <footer class="fixed bottom-0 left-0 right-0 bg-white border-t-4 border-orange-500 p-3 shadow-2xl z-40">
+    <div class="max-w-lg mx-auto">
+      <div class="text-center font-black text-slate-900 text-sm mb-2" data-gu="📞 સારથી ટૂર્સ હેલ્પલાઇન (ફોન કરવા લીલા બટન દબાવો)" data-en="📞 Sarthi Tours Helpline (Tap Green Button to Call)">
+        📞 સારથી ટૂર્સ હેલ્પલાઇન (ફોન કરવા લીલા બટન દબાવો)
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <a href="tel:9909915771" class="bg-green-700 text-white font-black py-3 rounded-2xl text-center text-base shadow-lg active:scale-95 flex items-center justify-center gap-1.5">
+          📞 99099 15771
+        </a>
+        <a href="tel:9316832131" class="bg-green-700 text-white font-black py-3 rounded-2xl text-center text-base shadow-lg active:scale-95 flex items-center justify-center gap-1.5">
+          📞 93168 32131
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    let currentLang = 'gu';
+    let isZoomed = false;
+    let jaikar = parseInt(localStorage.getItem('baba_jaikar') || '0');
+    document.getElementById('jaikarCount').innerText = jaikar;
+
+    function addJaikar() {
+      jaikar++;
+      localStorage.setItem('baba_jaikar', jaikar);
+      document.getElementById('jaikarCount').innerText = jaikar;
+    }
+
+    function changeFontSize() {
+      isZoomed = !isZoomed;
+      document.documentElement.style.setProperty('--base-size', isZoomed ? '22px' : '19px');
+      const btn = document.getElementById('zoomBtn');
+      btn.innerHTML = isZoomed 
+        ? (currentLang === 'gu' ? '🔍 સામાન્ય અક્ષર' : '🔍 Normal Text')
+        : (currentLang === 'gu' ? '🔍 અક્ષર મોટા કરો' : '🔍 Bigger Text');
+    }
+
+    function toggleLang() {
+      currentLang = currentLang === 'gu' ? 'en' : 'gu';
+      document.getElementById('langBtn').innerText = currentLang === 'gu' ? 'English' : 'ગુજરાતી';
+      document.querySelectorAll('[data-gu]').forEach(el => {
+        el.innerText = el.getAttribute(`data-${currentLang}`);
+      });
+    }
+
+    function switchTab(tab) {
+      ['itinerary', 'maps', 'packing'].forEach(t => {
+        document.getElementById(`sec-${t}`).classList.add('hidden');
+        document.getElementById(`tab-${t}`).classList.remove('tab-active');
+      });
+      document.getElementById(`sec-${tab}`).classList.remove('hidden');
+      document.getElementById(`tab-${tab}`).classList.add('tab-active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Opens the working embedded map right inside a popup modal on Tab 1!
+    function openMapModal(query, titleGu) {
+      const encoded = encodeURIComponent(query);
+      document.getElementById('modalMapTitle').innerText = '📍 ' + titleGu;
+      document.getElementById('modalMapIframe').src = `https://maps.google.com/maps?q=${encoded}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+      document.getElementById('mapModal').classList.remove('hidden');
+    }
+
+    function closeMapModal() {
+      document.getElementById('mapModal').classList.add('hidden');
+      document.getElementById('modalMapIframe').src = '';
+    }
+
+    // Tab 2 Embedded Map Switcher
+    function loadEmbedMap(query, titleGu) {
+      document.getElementById('currentMapTitle').innerText = '📍 ' + titleGu;
+      const encoded = encodeURIComponent(query);
+      document.getElementById('mapIframe').src = `https://maps.google.com/maps?q=${encoded}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+    }
+
+    function toggleCheck(labelEl) {
+      setTimeout(() => {
+        const cb = labelEl.querySelector('input');
+        if (cb.checked) {
+          labelEl.classList.add('checked-row');
+        } else {
+          labelEl.classList.remove('checked-row');
+        }
+      }, 10);
+    }
+
+    function saveNote() {
+      const notes = {
+        driverPhone: document.getElementById('driverPhone').value,
+        carNum: document.getElementById('carNum').value,
+        hotelRoom: document.getElementById('hotelRoom').value
+      };
+      localStorage.setItem('sarthi_yatra_elder_notes', JSON.stringify(notes));
+    }
+
+    window.onload = () => {
+      const saved = JSON.parse(localStorage.getItem('sarthi_yatra_elder_notes') || '{}');
+      if (saved.driverPhone) document.getElementById('driverPhone').value = saved.driverPhone;
+      if (saved.carNum) document.getElementById('carNum').value = saved.carNum;
+      if (saved.hotelRoom) document.getElementById('hotelRoom').value = saved.hotelRoom;
+    };
+  </script>
+</body>
+</html>
